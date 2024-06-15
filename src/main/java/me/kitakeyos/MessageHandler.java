@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Kitak
  */
 public class MessageHandler implements IMessageHandler {
@@ -22,6 +21,8 @@ public class MessageHandler implements IMessageHandler {
         try {
             switch (msg.getCommand()) {
                 case -10:
+                case -5:
+                case -8:
                     String error = msg.reader().readUTF();
                     System.out.println(error);
                     break;
@@ -175,6 +176,21 @@ public class MessageHandler implements IMessageHandler {
                     int vObj = msg.reader().readInt();
                     System.out.println("vObj: " + vObj);
                     break;
+
+                case -84: {
+                    byte type = msg.reader().readByte();
+                    short effId = msg.reader().readByte();
+                    System.out.println("type: " + type + " effId: " + effId);
+                    short num6 = msg.reader().readShort();
+                    byte[] data2 = new byte[num6];
+                    msg.reader().read(data2);
+                    Util.saveFile("res/" + (Tool.isResourceHD() ? "hd" : "medium") + "/effect/" + effId + ".png" ,  data2);
+                    data2 = new byte[msg.reader().available()];
+                    msg.reader().read(data2);
+                    Util.saveFile("res/data/effect/" + effId + ".dat" ,  data2);
+
+                }
+                break;
 
                 default:
                     System.out.println("cmd: " + msg.getCommand());

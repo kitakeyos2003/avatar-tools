@@ -12,7 +12,7 @@ import me.kitakeyos.network.Session;
  */
 public class Tool {
 
-    public static int resourceType = 1;// 0 medium hoặc 1 hd
+    public static int resourceType = 0;// 0 medium hoặc 1 hd
 
     public static boolean isResourceHD() {
         return resourceType == 1;
@@ -23,14 +23,15 @@ public class Tool {
         MessageHandler handler = new MessageHandler();
         Service service = new Service(session);
         session.setHandler(handler);
-        session.connect("avdk.teamobi.com", 19128);
+        session.connect("avhm.teamobi.com", 19128);
         service.setProviderAndClientType();
         service.doLogin("username", "password", "2.5.0");// thay đổi tk mk
 
-        for (int i = 13000; i < 20000; i++) {
-            service.requestImagePart((short) i);// muốn lấy res gì gọi hàm tương ứng
+        service.getAvatarPart();
+        for (int i = 0; i < 100; i++) {
+            service.doRequestEffectData((short) i);
             try {
-                Thread.sleep(10L);
+                Thread.sleep(20L);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

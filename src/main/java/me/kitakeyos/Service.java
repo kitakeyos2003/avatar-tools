@@ -25,28 +25,27 @@ public class Service implements IService {
 
     public void setProviderAndClientType() {
         try {
-            Message message = new Message((byte) (-1));
+            Message message = new Message((byte) -1);
             message.writer().writeByte(8);
             sendMessage(message);
+
             Message message2 = new Message((byte) (-17));
-            try {
-                message2.writer().writeByte(0);
-                message2.writer().writeInt(10000);
-                String value = "uni";
-                message2.writer().writeUTF(value);
-                message2.writer().writeInt(10000);
-                message2.writer().writeInt(860);
-                message2.writer().writeInt(1600);
-                message2.writer().writeBoolean(true);
-                message2.writer().writeByte(Tool.resourceType);
-                message2.writer().writeUTF("2.5.8");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            message2.writer().writeByte(0);
+            message2.writer().writeInt(10000);
+            message2.writer().writeUTF("uni");
+            message2.writer().writeInt(10000);
+            message2.writer().writeInt(860);
+            message2.writer().writeInt(1600);
+            message2.writer().writeBoolean(true);
+            message2.writer().writeByte(Tool.resourceType);
+            message2.writer().writeUTF("2.5.8");
             sendMessage(message2);
+
+
             Message message3 = new Message((byte) (-79));
             message3.writer().writeUTF("0");
             sendMessage(message3);
+
             Message message4 = new Message(-86);
             message4.writer().writeByte(2);
             message4.writer().writeByte(13);
@@ -119,7 +118,7 @@ public class Service implements IService {
     }
 
     public void doLogin(String username, String password, String version) {
-        Message message = new Message((byte) (-2));
+        Message message = new Message((byte) -2);
         try {
             message.writer().writeUTF(username);
             message.writer().writeUTF(password);
@@ -201,5 +200,15 @@ public class Service implements IService {
     public void getImageItemData() {
         Message m = new Message((byte) -15);
         sendMessage(m);
+    }
+
+    public void doRequestEffectData(short id3) {
+        Message message = new Message((byte) (-84));
+        try {
+            message.writer().writeByte(id3);
+            sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
